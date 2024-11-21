@@ -20,13 +20,14 @@ const readCSV = (filename) => {
     });
 };
 
-// Fetch source code size for a single space
+// Function to fetch source code size for a single space
 const fetchSpaceCodeSize = async (spaceId) => {
     try {
-        const response = await axios.get(`${BASE_URL}/${spaceId}/tree/main?recursive=true`); // No extra `/spaces/`
+        const response = await axios.get(`${BASE_URL}/${spaceId}/tree/main?recursive=true`);
         const files = response.data;
 
-        // Define a regex for image and video file extensions
+        // Define a regex tp ignore image and video file extensions (Assuming they are examples) and may unneccesarily increase
+        // source-code size
         const excludedExtensions = /\.(jpg|jpeg|png|gif|bmp|svg|webp|mp4|mkv|mov|avi|wmv|flv|webm)$/i;
 
         let totalSize = 0;
@@ -59,8 +60,8 @@ const saveToCSV = (data, filename) => {
 // Main function
 const main = async () => {
     console.log('----------------------Reading model data... ------------------');
-    const imageModels = readCSV('image_spaces_2024-11-20T12-21-02-567Z.csv'); // Image models CSV
-    const videoModels = readCSV('video_spaces_2024-11-20T12-21-02-569Z.csv'); // Video models CSV
+    const imageModels = readCSV('image_spaces_2024-11-20T12-21-02-567Z.csv'); // Image spaces CSV file, this may change as it has timestamp of generation
+    const videoModels = readCSV('video_spaces_2024-11-20T12-21-02-569Z.csv'); // Video spaces CSV file, this may change as it has timestamp of generation
 
     const imageSpacesData = [];
     console.log('--------------------Fetching source code size for image spaces ------------------');

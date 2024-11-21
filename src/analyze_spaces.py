@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 import os
 
 # Load CSV files
-image_model_data = pd.read_csv('../data/image_spaces_2024-11-20T12-21-02-567Z.csv')  # model_name, spaces_count, spaces
-video_model_data = pd.read_csv('../data/video_spaces_2024-11-20T12-21-02-569Z.csv')  # model_name, spaces_count, spaces
+image_model_data = pd.read_csv('../data/image_spaces_2024-11-20T12-21-02-567Z.csv')  # Add image spaces csv file
+video_model_data = pd.read_csv('../data/video_spaces_2024-11-20T12-21-02-569Z.csv')  # Add video spaces csv file
 
-image_source_data = pd.read_csv('../data/image_spaces_with_sizes_2024-11-20T17-54-29-487Z.csv')  # model_name, space_id, source_code_size_kb
-video_source_data = pd.read_csv('../data/video_spaces_with_sizes_2024-11-20T17-54-29-489Z.csv')  # model_name, space_id, source_code_size_kb
+image_source_data = pd.read_csv('../data/image_spaces_with_sizes_2024-11-20T17-54-29-487Z.csv')  # Add image spaces with source code size csv file
+video_source_data = pd.read_csv('../data/video_spaces_with_sizes_2024-11-20T17-54-29-489Z.csv')  # Add video spaces with source code size csv file
 
 # Function to handle potential 'NaN' or malformed data in 'spaces' column
 def safe_split_spaces(spaces_value):
@@ -106,13 +106,17 @@ plot_path = os.path.join(results_dir, 'total_spaces_image_vs_video.png')
 plt.savefig(plot_path)
 plt.show()
 
-# Graph 2: Average Source Code Size in Image vs Video Models
+# Graph 2: Average Source Code Size in Image vs Video Models (convert KB to MB)
+# Convert KB to MB for a clearer visualization of the scale
+average_image_size_mb = average_image_size / 1024  # Convert KB to MB
+average_video_size_mb = average_video_size / 1024  # Convert KB to MB
+
 plt.figure(figsize=(6, 4))
-plt.bar(['Image Spaces', 'Video Spaces'], [average_image_size, average_video_size], color=['blue', 'orange'])
-plt.title('Average Source Code Size in Image vs Video Spaces')
+plt.bar(['Image Spaces', 'Video Spaces'], [average_image_size_mb, average_video_size_mb], color=['blue', 'orange'])
+plt.title('Average Source Code Size in Image vs Video Spaces (MB)')
 plt.xlabel('Model Type')
-plt.ylabel('Average Source Code Size (KB)')
+plt.ylabel('Average Source Code Size (MB)')
 plt.tight_layout()
-plot_path=os.path.join(results_dir, 'average_source_code_size_image_vs_video.png')
+plot_path = os.path.join(results_dir, 'average_source_code_size_image_vs_video.png')
 plt.savefig(plot_path)
 plt.show()
